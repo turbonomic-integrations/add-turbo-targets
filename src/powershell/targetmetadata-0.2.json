@@ -1,0 +1,409 @@
+{
+	"VERSION": "0.2",
+	"MAP": {
+		"MSSQL": {
+			"category": "Applications and Databases",
+			"type": "SQLServer",
+			"targetId": {
+				"CSV_TAG": "Target_name",
+				"type": "target",
+				"REQUIRED": true
+			},
+			"username": {
+				"CSV_TAG": "Username",
+				"REQUIRED": true
+			},
+			"fullDomainName": {
+				"CSV_TAG": "AD_Domain",
+				"REQUIRED": false
+			},
+			"password": {
+				"CSV_TAG": "Password",
+				"REQUIRED": true
+			},
+			"targetEntities": {
+				"CSV_TAG": "Scope",
+				"type": "scope",
+				"REQUIRED": true
+			},
+			"browsingServicePort": {
+				"CSV_TAG": "Browsing_Service_Port",
+				"type": "port",
+				"DEFAULT": 0,
+				"REQUIRED": false
+			},
+			"port": {
+				"CSV_TAG": "SQL_Server_Port",
+				"type": "port",
+				"DEFAULT": 1433,
+				"REQUIRED": false
+			},
+			"fullValidation": {
+				"CSV_TAG": "Full_validation",
+				"type": "boolean",
+				"DEFAULT": false,
+				"REQUIRED": false
+			}
+		},
+		"AWS": {
+			"category": "Public Cloud",
+			"type": "AWS",
+			"address": {
+				"CSV_TAG": "Target_name",
+				"type": "target",
+				"REQUIRED": true
+			},
+			"iamRole": {
+				"CSV_TAG": "IAM_Role",
+				"type": "boolean",
+				"DEFAULT": false
+			},			
+			"username": {
+				"CSV_TAG": "Access_Key",
+				"REQUIRED": true
+			},
+			"password": {
+				"CSV_TAG": "Secret_Access_Key",
+				"REQUIRED": true
+			},
+			"proxyHost": {
+				"CSV_TAG": "Proxy_Host",
+				"REQUIRED": false
+			},
+			"proxyPort": {
+				"CSV_TAG": "Proxy_Port",
+				"type": "port",
+				"DEFAULT": 8080,
+				"REQUIRED": false
+			},
+			"proxyUsername": {
+				"CSV_TAG": "Proxy_Username",
+				"REQUIRED": false
+			},
+			"proxyPassword": {
+				"CSV_TAG": "Proxy_Password",
+				"REQUIRED": false
+			},
+			"secureProxy": {
+				"CSV_TAG": "Secure_Proxy",
+				"type": "boolean",
+				"DEFAULT": false,
+				"REQUIRED": false
+			}
+		},
+		"AWS_IAM": {
+			"category": "Public Cloud",
+			"type": "AWS",
+			"address": {
+				"CSV_TAG": "Target_name",
+				"type": "target",
+				"REQUIRED": true
+			},
+			"iamRole": {
+				"CSV_TAG": "IAM_Role",
+				"type": "boolean",
+				"DEFAULT": true
+			},			
+            "iamRoleArn": {
+				"CSV_TAG": "IAM_Role_ARN",
+				"REQUIRED": true
+			},
+			"proxyHost": {
+				"CSV_TAG": "Proxy_Host",
+				"REQUIRED": false
+			},
+			"proxyPort": {
+				"CSV_TAG": "Proxy_Port",
+				"type": "port",
+				"DEFAULT": 8080,
+				"REQUIRED": false
+			},
+			"proxyUsername": {
+				"CSV_TAG": "Proxy_Username",
+				"REQUIRED": false
+			},
+			"proxyPassword": {
+				"CSV_TAG": "Proxy_Password",
+				"REQUIRED": false
+			},
+			"secureProxy": {
+				"CSV_TAG": "Secure_Proxy",
+				"type": "boolean",
+				"DEFAULT": false,
+				"REQUIRED": false
+			}
+		},
+		"AWS_Billing": {
+			"category": "Public Cloud",
+			"type":"AWS Billing",
+			"address": {
+				"CSV_TAG": "Target_name",
+				"type": "target",
+				"REQUIRED": true
+			},
+			"iamRole": {
+				"CSV_TAG": "IAM_Role",
+				"type": "boolean",
+				"DEFAULT": false
+			},			
+			"username": {
+				"CSV_TAG": "Access_Key",
+				"REQUIRED": true
+			},
+			"password": {
+				"CSV_TAG": "Secret_Access_Key",
+				"REQUIRED": true
+			},
+			"bucketName": {
+				"CSV_TAG":"Bucket_Name",
+				"REQUIRED": true
+			},
+			"reportPathPrefix": {
+				"CSV_TAG":"Report_Path",
+				"REQUIRED": true
+			},
+			"bucketRegion": {
+				"CSV_TAG":"Report_Region",
+				"REQUIRED": true
+			},
+			"proxyHost": {
+				"CSV_TAG": "Proxy_Host",
+				"REQUIRED": false
+			},
+			"proxyPort": {
+				"CSV_TAG": "Proxy_Port",
+				"type": "port",
+				"DEFAULT": 8080,
+				"REQUIRED": false
+			},
+			"proxyUsername": {
+				"CSV_TAG": "Proxy_Username",
+				"REQUIRED": false
+			},
+			"proxyPassword": {
+				"CSV_TAG": "Proxy_Password",
+
+				"REQUIRED": false
+			},
+			"secureProxy": {
+				"CSV_TAG": "Secure_Proxy",
+				"type": "boolean",
+				"DEFAULT": false,
+				"REQUIRED": false
+			}
+		},
+		"AWS_Billing_IAM": {
+			"category": "Public Cloud",
+			"type":"AWS Billing",
+			"address": {
+				"CSV_TAG": "Target_name",
+				"type": "target",
+				"REQUIRED": true
+			},
+			"iamRole": {
+				"CSV_TAG": "IAM_Role",
+				"type": "boolean",
+				"DEFAULT": true
+			},			
+            "iamRoleArn": {
+				"CSV_TAG": "IAM_Role_ARN",
+				"REQUIRED": true
+			},
+			"bucketName": {
+				"CSV_TAG":"Bucket_Name",
+				"REQUIRED": true
+			},
+			"reportPathPrefix": {
+				"CSV_TAG":"Report_Path",
+				"REQUIRED": true
+			},
+			"bucketRegion": {
+				"CSV_TAG":"Report_Region",
+
+				"REQUIRED": true
+			},
+			"proxyHost": {
+				"CSV_TAG": "Proxy_Host",
+				"REQUIRED": false
+			},
+			"proxyPort": {
+				"CSV_TAG": "Proxy_Port",
+				"type": "port",
+				"DEFAULT": 8080,
+				"REQUIRED": false
+			},
+			"proxyUsername": {
+				"CSV_TAG": "Proxy_Username",
+				"REQUIRED": false
+			},
+			"proxyPassword": {
+				"CSV_TAG": "Proxy_Password",
+				"REQUIRED": false
+			},
+			"secureProxy": {
+				"CSV_TAG": "Secure_Proxy",
+				"type": "boolean",
+				"DEFAULT": false,
+				"REQUIRED": false
+			}
+		},
+		"Azure_EA": {
+			"category": "Public Cloud",
+			"type":"Azure EA",
+			"name": {
+				"CSV_TAG": "Target_name",
+				"type": "target",
+				"REQUIRED": true
+			},
+			"enrollmentNumber": {
+				"CSV_TAG": "Enrollment_Number",
+				"REQUIRED": true
+			},			
+            "apiKey": {
+				"CSV_TAG": "API_Key",
+				"REQUIRED": true
+			},
+			"proxyHost": {
+				"CSV_TAG": "Proxy_Host",
+				"REQUIRED": false
+			},
+			"proxyPort": {
+				"CSV_TAG": "Proxy_Port",
+				"type": "port",
+				"DEFAULT": 8080,
+				"REQUIRED": false
+			},
+			"proxyUsername": {
+				"CSV_TAG": "Proxy_Username",
+				"REQUIRED": false
+			},
+			"proxyPassword": {
+				"CSV_TAG": "Proxy_Password",
+				"REQUIRED": false
+			},
+			"secureProxy": {
+				"CSV_TAG": "Secure_Proxy",
+				"type": "boolean",
+				"DEFAULT": false,
+				"REQUIRED": false
+			}
+		},
+		"Azure_SP": {
+			"category": "Public Cloud",
+			"type":"Azure Service Principal",
+			"name": {
+				"CSV_TAG": "Target_name",
+				"type": "target",
+				"REQUIRED": true
+			},
+			"cloudType": {
+				"CSV_TAG": "Cloud_Type",
+				"REQUIRED": true
+			},			
+            "tenant": {
+				"CSV_TAG": "Tenant_ID",
+				"REQUIRED": true
+			},
+			"client": {
+				"CSV_TAG": "Client_ID",
+				"REQUIRED": true
+			},
+			"key": {
+				"CSV_TAG": "Client_Key",
+				"REQUIRED": true
+			},
+			"proxyHost": {
+				"CSV_TAG": "Proxy_Host",
+				"REQUIRED": false
+			},
+			"proxyPort": {
+				"CSV_TAG": "Proxy_Port",
+				"type": "port",
+				"DEFAULT": 8080,
+				"REQUIRED": false
+			},
+			"proxyUsername": {
+				"CSV_TAG": "Proxy_Username",
+				"REQUIRED": false
+			},
+			"proxyPassword": {
+				"CSV_TAG": "Proxy_Password",
+				"REQUIRED": false
+			},
+			"secureProxy": {
+				"CSV_TAG": "Secure_Proxy",
+				"type": "boolean",
+				"DEFAULT": false,
+				"REQUIRED": false
+			}
+		},
+		"vCenter": {
+			"category": "Hypervisor",
+			"type": "vCenter",
+			"address": {
+				"CSV_TAG": "Target_name",
+				"type": "target",
+				"REQUIRED": true
+			},
+			"username": {
+				"CSV_TAG": "Username",
+				"REQUIRED": true
+			},
+			"password": {
+				"CSV_TAG": "Password",
+				"REQUIRED": true
+			},
+			"isStorageBrowsingEnabled": {
+				"CSV_TAG": "Enable_DS_Browsing",
+				"type": "boolean",
+				"DEFAULT": true,
+				"REQUIRED": true
+			},
+			"guestMetricsEnabled": {
+				"CSV_TAG": "Enable_Guest_Metrics",
+				"type": "boolean",
+				"DEFAULT": false,
+				"REQUIRED": true
+			}
+		},
+		"Hyper-V": {
+			"category": "Hypervisor",
+			"type": "Hyper-V",
+			"address": {
+				"CSV_TAG": "Target_name",
+				"type": "target",
+				"REQUIRED": true
+			},
+			"username": {
+				"CSV_TAG": "Username",
+				"REQUIRED": true
+			},
+			"fullDomainName": {
+				"CSV_TAG": "AD_Domain",
+				"REQUIRED": false
+			},
+			"password": {
+				"CSV_TAG": "Password",
+				"REQUIRED": true
+			},
+			"port": {
+				"CSV_TAG": "Port",
+				"type": "port",
+				"DEFAULT": 5985,
+				"REQUIRED": false
+			},
+			"collectClustered": {
+				"CSV_TAG": "Discover_Host_Cluster",
+				"type": "boolean",
+				"DEFAULT": false,
+				"REQUIRED": false
+			},
+			"pav::UseSSL": {
+				"CSV_TAG": "Secure_Connection",
+				"type": "boolean",
+				"DEFAULT": false,
+				"REQUIRED": false
+			}
+		}
+	}
+}
