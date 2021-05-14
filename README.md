@@ -25,7 +25,7 @@ require a different CSV file in order to specify the different fields required b
 
 ## Requirements <a name="requirements"></a>
 
-- Turbonimic XL 8.1.x or higher.
+- Turbonomic XL 8.1.x or higher.
 
 - Powershell 5.1 or greater
 
