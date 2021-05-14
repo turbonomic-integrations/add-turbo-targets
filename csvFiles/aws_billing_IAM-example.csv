@@ -1,0 +1,3 @@
+﻿AWS_Billing_IAM,Target_name,IAM_Role_ARN,Bucket_Name,Report_Path,Report_Region,Proxy_Host,Proxy_Port,Proxy_Username,Proxy_Password,Secure_Proxy
+AWS_Billing_IAM,example1.aws.amazon.com,987654321abcdefg,sampleBucket,daily/master-report,us-east-1,,,,,
+AWS_Billing_IAM,example2.aws.amazon.com,54321zyx,sampleBucket2,daily/master-report2,us-west-1,https://exampleproxy.example.com,8080,proxyuser,proxypass,TRUE

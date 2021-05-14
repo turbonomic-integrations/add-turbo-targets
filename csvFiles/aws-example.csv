@@ -1,0 +1,3 @@
+﻿AWS,Target_name,Access_Key,Secret_Access_Key,Proxy_Host,Proxy_Port,Proxy_Username,Proxy_Password,Secure_Proxy
+AWS,example1.aws.amazon.com,abcdefg,987654321abcdefg,https://exampleproxy.example.com,8080,proxyuser,proxypass,TRUE
+AWS,example2.aws.amazon.com,12345,54321zyx,,,,,

@@ -6,7 +6,7 @@
     This script allows you to define the required fields in csv files to bulk add targets to Turbonomic.  Each 
     target type is it's own csv file since each target requires different fields.  
 
-    .PARAMETER Turbo_Instance
+    .PARAMETER TurboInstance
     Hostname or IP address of the Turbonomic instance to add targets to.
 
     .PARAMETER Username
@@ -15,14 +15,14 @@
     .PARAMETER Password
     Password for Username parameter.  
 	  	
-	  .PARAMETER csvFolder
-    Optional parameter to specify the folder that contains the csv files.  Default is csvFiles.
+	  .PARAMETER CSVFolder
+    Optional parameter to specify the folder that contains the csv files.  Default is CSVFolder.
 
-    .PARAMETER updateTargets
+    .PARAMETER UpdateTargets
     Optional parameter.  If specified and target already exists, it will be updated.  If target does not exist, it will be added
 
     .EXAMPLE
-    ./add_turbo_targets.ps1 -Turbo_Instance 10.16.173.59 -Username administrator -Password administrator
+    ./add_turbo_targets.ps1 -TurboInstance 10.16.173.59 -Username administrator -Password administrator
 
     .Notes
     The targetmetadata-0.2.json file is also required and should be placed in the same directory as the script.
@@ -40,7 +40,7 @@
 [CmdletBinding()]
 param(
   [parameter(Mandatory, HelpMessage = 'Turbonomic Hostname')]
-  [string] $Turbo_Instance,
+  [string] $TurboInstance,
 
   [parameter(Mandatory, HelpMessage = 'Turbonomic User to add targets (must be assigned administrator role)')]
   [string] $Username,
@@ -52,13 +52,13 @@ param(
   [System.Management.Automation.PSCredential] $Credential,
 
   [parameter(HelpMessage = 'Folder with CSV files to import target from')]
-  [string] $csvFolder = 'csvFiles',
+  [string] $CSVFolder = 'csvFiles',
 
   [parameter(DontShow)]
-  [string] $jsonMap = 'targetmetadata-0.2.json',
+  [string] $JSONMap = 'targetmetadata-0.2.json',
 
   [parameter(HelpMessage = 'Will update target if it already exists')]
-  [switch] $updateTargets
+  [switch] $UpdateTargets
 
 )
 function Get-Auth {
@@ -69,52 +69,52 @@ function Get-Auth {
       [System.Management.Automation.PSCredential] $Credential
     )
     if ($Credential) {
-      $auth = @{
+      $Auth = @{
         username  = $Credential.Username
         password  = $Credential.GetNetworkCredential().password
       } 
     }
     elseif ($Username -and $Password) {
-      $auth = @{
+      $Auth = @{
         username  = $Username
         password  = $Password
       }
     }
     else {
-      $creds = Get-Credential -Message "Please provide credentials for Turbonomic:"
+      $Creds = Get-Credential -Message "Please provide credentials for Turbonomic:"
       
-      $auth = @{
-        username  = $creds.Username
-        password  = $creds.GetNetworkCredential().password
+      $Auth = @{
+        Username  = $Creds.Username
+        Password  = $Creds.GetNetworkCredential().Password
       } 
     }
-    $auth
+    $Auth
 }
 function Invoke-TurboRequest {
     # General REST API call function
     param (
         [string] $Method = 'Get',
-        [bool] $ssl = 1,
+        [bool] $SSL = 1,
         [string] $Server,
         [string] $BaseUrl = '/api/v3',
         [AllowNull()][string] $ContentType,
         [string] $Url,
         [hashtable] $Form,
         [AllowNull()][string] $Body,
-        [AllowNull()][Microsoft.PowerShell.Commands.WebRequestSession] $Session = $Script:vmtSession,
+        [AllowNull()][Microsoft.PowerShell.Commands.WebRequestSession] $Session = $Script:VMTSession,
         [hashtable] $q,
-        [string] $disable_hateoas = 'true',
+        [string] $Disable_Hateoas = 'true',
         [string] $Limit,
         [string] $Cursor,
-        [scriptblock] $functionModifier
+        [scriptblock] $FunctionModifier
         
         
     )
     function Set-RequestArgs {
       # Function to set arguments
   
-      if ( $disable_hateoas -eq 'true' ) { $Query = "disable_hateoas=true" }
-      elseif ($disable_hateoas -eq 'false') { $Query = "disable_hateoas=false" }
+      if ( $Disable_Hateoas -eq 'true' ) { $Query = "Disable_Hateoas=true" }
+      elseif ($Disable_Hateoas -eq 'false') { $Query = "Disable_Hateoas=false" }
   
       if ($Limit) {
           if ( -Not($Query )) { $Query = "limit=$Limit" }
@@ -139,12 +139,12 @@ function Invoke-TurboRequest {
           else { $Query += "&$qq" }
       }
   
-      if ($Query) {$uri = "https://{0}{1}/{2}?{3}" -f $Server, $BaseUrl, $Url, $Query}
-      else {$uri = "https://{0}{1}/{2}" -f $Server, $BaseUrl, $Url}
+      if ($Query) {$URI = "https://{0}{1}/{2}?{3}" -f $Server, $BaseUrl, $Url, $Query}
+      else {$URI = "https://{0}{1}/{2}" -f $Server, $BaseUrl, $Url}
   
       $requestArgs = @{
           Method = $Method
-          Uri = $uri
+          Uri = $URI
       }
   
       if (![string]::IsNullOrEmpty($ContentType))
@@ -174,7 +174,7 @@ function Invoke-TurboRequest {
     $requestArgs = Set-RequestArgs @PSBoundParameters
     # Write-Host @requestArgs
 
-    if ($ssl -eq 0) { $apiCall = {Invoke-WebRequest @requestArgs -SkipCertificateCheck}}
+    if ($SSL -eq 0) { $apiCall = {Invoke-WebRequest @requestArgs -SkipCertificateCheck}}
     else { $apiCall = {Invoke-WebRequest @requestArgs}}
 
     try {
@@ -185,8 +185,8 @@ function Invoke-TurboRequest {
     }
     $content = ConvertFrom-Json $([String]::new($response.Content))
     $Headers = $response.Headers
-    if ($functionModifier) {
-        $output += &{ &$functionModifier $content }
+    if ($FunctionModifier) {
+        $output += &{ &$FunctionModifier $content }
     }
     else {$output = $content}
     $totalPages = $Headers.'X-Total-Record-Count'
@@ -196,8 +196,8 @@ function Invoke-TurboRequest {
         $response = &$apiCall
         $content = ConvertFrom-Json $([String]::new($response.Content))
         $Headers = $response.Headers
-        if ($functionModifier) {
-            $output += &{ &$functionModifier $content }
+        if ($FunctionModifier) {
+            $output += &{ &$FunctionModifier $content }
         }
         else {$output += $content}
         if ($Headers.'X-Total-Record-Count' -ne $totalPages) {throw 'Cursor Exception'}
@@ -206,10 +206,10 @@ function Invoke-TurboRequest {
 }
 function Get-ScopeUUID {
   param([Parameter()]
-        [string] $scopeName)
+        [string] $ScopeName)
 
-  $response = Invoke-TurboRequest -Method 'GET' -Server $Turbo_Instance -ContentType 'application/json' `
-    -Url 'search' -Session $vmtSession -ssl $ps_version -q @{"types"="Group";"q"=$scopeName}
+  $response = Invoke-TurboRequest -Method 'GET' -Server $TurboInstance -ContentType 'application/json' `
+    -Url 'search' -Session $VMTSession -SSL $PSVersion -q @{"types"="Group";"q"=$ScopeName}
 
   if ($response[0].count -eq 1) { return $response[0].uuid}
   elseif ($response[0].count -eq 0) { return 0 }
@@ -218,17 +218,17 @@ function Get-ScopeUUID {
 }
 function Get-TargetUUID {
   param([Parameter(Mandatory)]
-        [PSCustomObject] $line,
+        [PSCustomObject] $Line,
 
         [Parameter(Mandatory)]
-        [PSNoteProperty] $item,
+        [PSNoteProperty] $Item,
         
         [Parameter(Mandatory)]
         [Object] $currentTargets)
 
   foreach ($target in $currentTargets[0]) {
 
-    if ($target.displayName -eq $line.($item.value.CSV_TAG)) {
+    if ($target.displayName -eq $Line.($Item.value.CSV_TAG)) {
       if (!([string]::IsNullOrEmpty($target.uuid))) {return $target.uuid}
       else {return $null}
     }
@@ -237,25 +237,25 @@ function Get-TargetUUID {
 }
 function Set-Scope {
   param([Parameter(Mandatory)]
-        [PSCustomObject] $line,
+        [PSCustomObject] $Line,
 
         [Parameter(Mandatory)]
-        [PSNoteProperty] $item)
+        [PSNoteProperty] $Item)
 
 
-  $grpUUID = Get-ScopeUUID -scopeName $line.($item.value.CSV_TAG)
+  $grpUUID = Get-ScopeUUID -ScopeName $Line.($Item.value.CSV_TAG)
   if ($grpUUID -lt 1) {
-    Write-Host -ForegroundColor "RED" "Scope Name $($line.($item.value.CSV_TAG)) does not exist or is not unique for target $($line.($objMap.PSObject.properties['targetId'].value.CSV_TAG))"
+    Write-Host -ForegroundColor "RED" "Scope Name $($Line.($Item.value.CSV_TAG)) does not exist or is not unique for target $($Line.($ObjMap.PSObject.properties['targetId'].value.CSV_TAG))"
     return $null
   }
   # Required to create array of array for groupProperties 
-  $scopeArray = New-Object System.Collections.ArrayList
-  [void]$scopeArray.Add(@($grpUUID))
+  $ScopeArray = New-Object System.Collections.ArrayList
+  [void]$ScopeArray.Add(@($grpUUID))
 
-  # $DTO.inputFields += @{"name" = $item.Name; "value" = $grpUUID; `
-  #  "defaultValue" = $line.($item.value.CSV_TAG); "groupProperties" = @($scopeArray) }
-  return @{"name" = $item.Name; "value" = $grpUUID; `
-  "defaultValue" = $line.($item.value.CSV_TAG); "groupProperties" = @($scopeArray) }
+  # $DTO.inputFields += @{"name" = $Item.Name; "value" = $grpUUID; `
+  #  "defaultValue" = $Line.($Item.value.CSV_TAG); "groupProperties" = @($ScopeArray) }
+  return @{"name" = $Item.Name; "value" = $grpUUID; `
+  "defaultValue" = $Line.($Item.value.CSV_TAG); "groupProperties" = @($ScopeArray) }
   # return $DTO
 }
 function Set-BooleanValue {
@@ -277,25 +277,25 @@ function Set-BooleanValue {
 }
 function New-Target{
   param([Parameter()]
-        [string] $targetUUID,
+        [string] $TargetUUID,
         
         [Parameter(Mandatory)]
-        [hashtable] $targetDTO)
+        [hashtable] $TargetDTO)
 
   
-  if (($updateTargets) -and ($targetUUID)) {
-    $createTargetResp = Invoke-TurboRequest -Method 'PUT' -Server $Turbo_Instance -ContentType 'application/json;charset=UTF-8' `
-     -Url "targets/$targetUUID" -Session $vmtSession -ssl $ps_version -Body ($targetDTO |ConvertTo-Json -Depth 10)
-     Start-Job -ScriptBlock {Invoke-TurboRequest -Method 'POST' -Server $Turbo_Instance -ContentType 'application/json;charset=UTF-8' `
-     -Url "targets/$targetUUID" -q @{"rediscover"="false"; "validate"="true"} -Session $vmtSession -ssl $ps_version -Body "{}" } | Out-Null
+  if (($updateTargets) -and ($TargetUUID)) {
+    $createTargetResp = Invoke-TurboRequest -Method 'PUT' -Server $TurboInstance -ContentType 'application/json;charset=UTF-8' `
+     -Url "targets/$TargetUUID" -Session $VMTSession -SSL $PSVersion -Body ($TargetDTO |ConvertTo-Json -Depth 10)
+     Start-Job -ScriptBlock {Invoke-TurboRequest -Method 'POST' -Server $TurboInstance -ContentType 'application/json;charset=UTF-8' `
+     -Url "targets/$TargetUUID" -q @{"rediscover"="false"; "validate"="true"} -Session $VMTSession -SSL $PSVersion -Body "{}" } | Out-Null
   }
   else {
-    $createTargetResp = Invoke-TurboRequest -Method 'POST' -Server $Turbo_Instance -ContentType 'application/json;charset=UTF-8' `
-     -Url 'targets' -Session $vmtSession -ssl $ps_version -Body ($targetDTO |ConvertTo-Json -Depth 10)
+    $createTargetResp = Invoke-TurboRequest -Method 'POST' -Server $TurboInstance -ContentType 'application/json;charset=UTF-8' `
+     -Url 'targets' -Session $VMTSession -SSL $PSVersion -Body ($TargetDTO |ConvertTo-Json -Depth 10)
   }
   
   if ($createTargetResp[2] -eq 200) {
-    if (!($targetUUID)) {Write-Host "Created Target $($createTargetResp[0].displayName)"}
+    if (!($TargetUUID)) {Write-Host "Created Target $($createTargetResp[0].displayName)"}
     else {Write-Host "Updated Target $($createTargetResp[0].displayName)"}
   }
   elseif ($createTargetResp[0] -Match "already exists") {
@@ -303,7 +303,7 @@ function New-Target{
     $name = [regex]::matches($createTargetResp[0], $extractName)
     Write-Host -ForegroundColor "RED" "Target Name $name Already Exists"
     Write-Host $createTargetResp[0]
-    # write-host ($targetDTO |ConvertTo-Json -Depth 10)
+    # write-host ($TargetDTO |ConvertTo-Json -Depth 10)
   }
   else {
     Write-Host "Unexpected Error:"
@@ -312,14 +312,14 @@ function New-Target{
 }
 function Set-Target {
   param([Parameter(Mandatory)]
-        [PSCustomObject] $objMap,
+        [PSCustomObject] $ObjMap,
 
         [Parameter(Mandatory)]
-        [PSCustomObject] $csvObj)
+        [PSCustomObject] $CSVObj)
 
   
-  $currentTargets = Invoke-TurboRequest -Method 'GET' -Server $Turbo_Instance -ContentType 'application/json;charset=UTF-8' `
-  -Url 'targets' -Session $vmtSession -ssl $ps_version 
+  $currentTargets = Invoke-TurboRequest -Method 'GET' -Server $TurboInstance -ContentType 'application/json;charset=UTF-8' `
+  -Url 'targets' -Session $VMTSession -SSL $PSVersion 
 
   :outer foreach ($line in $csvObj) {
     $targetDTO = @{
@@ -329,16 +329,16 @@ function Set-Target {
       "uuid" = $null
     }
     $targetUUID = $null
-    :inner foreach ($item in $objMap.PSObject.properties) { 
+    :inner foreach ($item in $ObjMap.PSObject.properties) { 
       
     
       # if (($item.value.REQUIRED -eq $true) -and (!($line.($item.value.CSV_TAG))) ) {
-      #   Write-Host -ForegroundColor "RED" "Missing Requred Field $($item.value.CSV_TAG) to add target $($line.($objMap.PSObject.properties['targetId'].value.CSV_TAG))"
+      #   Write-Host -ForegroundColor "RED" "Missing Requred Field $($item.value.CSV_TAG) to add target $($line.($ObjMap.PSObject.properties['targetId'].value.CSV_TAG))"
       #   continue outer
       # }
       if (($item.value.REQUIRED -eq $true) -and (!($line.($item.value.CSV_TAG)))) {
         if ((!($updateTargets)) -or ($updateTargets -and $item.Name -ne "targetEntities")) {
-          Write-Host -ForegroundColor "RED" "Missing Requred Field $($item.value.CSV_TAG) to add target $($line.($objMap.PSObject.properties['targetId'].value.CSV_TAG))"
+          Write-Host -ForegroundColor "RED" "Missing Requred Field $($item.value.CSV_TAG) to add target $($line.($ObjMap.PSObject.properties['targetId'].value.CSV_TAG))"
           continue outer
         }
       }
@@ -394,8 +394,8 @@ function Set-Target {
 
 
 
-if (Test-Path $jsonMap -PathType Leaf) {
-    $csvMap = Get-Content -Raw -Path $jsonMap | ConvertFrom-Json
+if (Test-Path $JSONMap -PathType Leaf) {
+    $csvMap = Get-Content -Raw -Path $JSONMap | ConvertFrom-Json
 }
 else { 
     throw "JSON Mapping File not found"
@@ -406,18 +406,18 @@ if ($PSVersionTable.PSVersion.Major -lt 6)
 { 
   [Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
   [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-  $ps_version = 1
+  $PSVersion = 1
 }
-else { $ps_version = 0}
+else { $PSVersion = 0}
 # Pass parameters for authentication or prompt for it
-$auth = Get-Auth -Username $Username -Password $Password 
+$Auth = Get-Auth -Username $Username -Password $Password 
 
 # Web Session object
-$script:vmtSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+$script:VMTSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 # Make authentication call to Turbonomic
-$auth_resp = Invoke-TurboRequest -Method 'POST' -Server $Turbo_Instance `
- -ContentType 'application/x-www-form-urlencoded' -Url 'login' -Form $auth -ssl $ps_version
+$AuthResp = Invoke-TurboRequest -Method 'POST' -Server $TurboInstance `
+ -ContentType 'application/x-www-form-urlencoded' -Url 'login' -Form $Auth -SSL $PSVersion
 
 if (Test-Path $csvFolder -PathType Container) {
   $csvFiles = Get-ChildItem $csvFolder
@@ -428,11 +428,11 @@ if (Test-Path $csvFolder -PathType Container) {
 
       $csvObj = Import-Csv $file.FullName
       Write-Host "*** Creating/Updating $($csvObj[0].psobject.properties.value[0]) target(s) from $($file.BaseName) ***" 
-      $objMap = $csvMap.MAP.($csvObj[0].psobject.properties.value[0])
+      $ObjMap = $csvMap.MAP.($csvObj[0].psobject.properties.value[0])
 
       # $createTargets = "Set-$($csvObj[0].psobject.properties.value[0])"
-      # &$createTargets -objMap $objMap -csvObj $csvObj
-      $createTargets = Set-Target -objMap $objMap -csvObj $csvObj
+      # &$createTargets -ObjMap $ObjMap -csvObj $csvObj
+      $createTargets = Set-Target -ObjMap $ObjMap -csvObj $csvObj
 
     }
   } 

@@ -1,0 +1,3 @@
+﻿vCenter,Target_name,Username,Password,Enable_DS_Browsing,Enable_Guest_Metrics
+vCenter,vcenter1.example.com,user_example1,example_pass1,TRUE,FALSE
+vCenter,vcenter2.example.com,user_example2,example_pass2,no,yes

@@ -1,0 +1,3 @@
+﻿Hyper-V,Target_name,Username,AD_Domain,Password,Port,Discover_Host_Cluster,Secure_Connection
+Hyper-V,hvserver1.example.com,admin,,pass1,5985,Yes,No
+Hyper-V,hvserver2.example.com,John,example.com,Pass12345,,FALSE,FALSE

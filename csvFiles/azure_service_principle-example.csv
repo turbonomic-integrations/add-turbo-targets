@@ -1,0 +1,3 @@
+﻿Azure_SP,Target_name,Cloud_Type,Tenant_ID,Client_ID,Client_Key,Proxy_Port,Proxy_Username,Proxy_Password,Secure_Proxy,
+Azure_SP,example1.windows.net,Germany,54321zyx,zyxwvutsrqponml55555,987654321abcdefg,https://exampleproxy.example.com,8080,proxyuser,proxypass,FALSE
+Azure_SP,example2.windows.net,Global,abcdefg,abcdefghijklmnop12345,54321zyx,,,,,

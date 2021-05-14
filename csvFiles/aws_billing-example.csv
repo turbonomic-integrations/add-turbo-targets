@@ -1,0 +1,3 @@
+﻿AWS_Billing,Target_name,Access_Key,Secret_Access_Key,Bucket_Name,Report_Path,Report_Region,Proxy_Host,Proxy_Port,Proxy_Username,Proxy_Password,Secure_Proxy
+AWS_Billing,example1.aws.amazon.com,987654321abcdefg,707yJ34323568pHJH,example-cost-bucket,daily/cost-and-usage-reports,us-east-1,,,,,
+AWS_Billing,example2.aws.amazon.com,54321zyx,hhlkjh1833f4zokHTXh,sample-cost-and-usage-reports,daily/cost-and-usage-reports,us-west-1,https://exampleproxy.example.com,8080,proxyuser,proxypass,TRUE

@@ -1,0 +1,3 @@
+﻿MSSQL,Target_name,Username,AD_Domain,Password,Scope,Browsing_Service_Port,SQL_Server_Port,Full_validation
+MSSQL,sqlserver1.example.com,admin,,pass1,MS SQL Server 2016 Group,,1433,yes
+MSSQL,10.10.10.10,Administrator,example.org,admin,MS SQL Server 2014 Group,1434,,yes

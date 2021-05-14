@@ -1,0 +1,3 @@
+﻿Azure_EA,Target_name,Enrollment_Number,API_Key,Proxy_Host,Proxy_Port,Proxy_Username,Proxy_Password,Secure_Proxy
+Azure_EA,Fail EA,999999999,zyxwvutsrqponml55555,,,,,
+Azure_EA,Azure_Ent,123456789,abcdefghijklmnop12345,https://exampleproxy.example.com,8080,proxyuser,proxypass,TRUE
