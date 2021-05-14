@@ -55,7 +55,7 @@ param(
   [string] $CSVFolder = 'csvFiles',
 
   [parameter(DontShow)]
-  [string] $JSONMap = 'targetmetadata-0.2.json',
+  [string] $JSONMap = 'targetmetadata.json',
 
   [parameter(HelpMessage = 'Will update target if it already exists')]
   [switch] $UpdateTargets
