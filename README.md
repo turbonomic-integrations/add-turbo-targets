@@ -54,8 +54,8 @@ Currently, only the following target types are supported:
 
 ## Syntax <a name="syntax"></a>
 ```powershell
-PS> ./add_turbo_targets.ps1 [-Turbo_Instance] <String> [-Username] <String> [-Password] <String> 
-      [[-Credential] <PSCredential>] [[-csvFolder] <String>] [-updateTargets] [<CommonParameters>]
+PS> ./add_turbo_targets.ps1 [-TurboInstance] <String> [-Username] <String> [-Password] <String> 
+      [[-Credential] <PSCredential>] [[-csvFolder] <String>] [-UpdateTargets] [<CommonParameters>]
 ```
 
 ## Parameters <a name="parameters"></a>
@@ -71,12 +71,12 @@ PS> ./add_turbo_targets.ps1 [-Turbo_Instance] <String> [-Username] <String> [-Pa
         
     -Credential <PSCredential>
         
-    -csvFolder <String>
+    -CSVFolder <String>
         Optional parameter to specify the folder that contains the csv files.  Default is csvFiles.
         
-    -jsonMap <String>
+    -JSONMap <String>
         
-    -updateTargets [<SwitchParameter>]
+    -UpdateTargets [<SwitchParameter>]
         Optional parameter.  If specified and target already exists, it will be updated.  
         If target does not exist, it will be added
 ```
@@ -95,5 +95,5 @@ PS> ../add_turbo_targets.ps1
 
 Alternatively, you can also specify all the required parameters:
 ```powershell
-PS> ../add_turbo_targets.ps1 -Turbo_Instance turbo.example.com -Username administrator -Password password
+PS> ../add_turbo_targets.ps1 -TurboInstance turbo.example.com -Username administrator -Password password
 ```
