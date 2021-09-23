@@ -1,5 +1,5 @@
 {
-	"VERSION": "0.2",
+	"VERSION": "0.3",
 	"MAP": {
 		"MSSQL": {
 			"category": "Applications and Databases",
@@ -400,6 +400,44 @@
 			},
 			"pav::UseSSL": {
 				"CSV_TAG": "Secure_Connection",
+				"type": "boolean",
+				"DEFAULT": false,
+				"REQUIRED": false
+			}
+		},
+		"ORACLE": {
+			"category": "Applications and Databases",
+			"type": "Oracle",
+			"targetId": {
+				"CSV_TAG": "Target_name",
+				"type": "target",
+				"REQUIRED": true
+			},
+			"username": {
+				"CSV_TAG": "Username",
+				"REQUIRED": true
+			},
+			"password": {
+				"CSV_TAG": "Password",
+				"REQUIRED": true
+			},
+			"targetEntities": {
+				"CSV_TAG": "Scope",
+				"type": "scope",
+				"REQUIRED": true
+			},
+			"port": {
+				"CSV_TAG": "Oracle_Port",
+				"type": "port",
+				"DEFAULT": 1521,
+				"REQUIRED": false
+			},
+			"databaseID": {
+				"CSV_TAG": "Oracle_System_Identifier",
+				"REQUIRED": true
+			},
+			"fullValidation": {
+				"CSV_TAG": "Full_validation",
 				"type": "boolean",
 				"DEFAULT": false,
 				"REQUIRED": false

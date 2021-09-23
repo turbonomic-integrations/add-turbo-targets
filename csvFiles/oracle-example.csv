@@ -1,0 +1,3 @@
+﻿ORACLE,Target_name,Username,Password,Scope,Oracle_Port,Oracle_System_Identifier,Full_validation
+ORACLE,oracle.example.com,admin,pass1,Oracle 11g Group,,ORCL,yes
+ORACLE,10.10.10.10,system,sysadmin,Oracle 12c Group,1521,ORCL12,FALSE
