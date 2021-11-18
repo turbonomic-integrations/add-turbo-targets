@@ -42,10 +42,10 @@ param(
   [parameter(Mandatory, HelpMessage = 'Turbonomic Hostname')]
   [string] $TurboInstance,
 
-  [parameter(Mandatory, HelpMessage = 'Turbonomic User to add targets (must be assigned administrator role)')]
+  [parameter(HelpMessage = 'Turbonomic User to add targets (must be assigned administrator role)')]
   [string] $Username,
 
-  [parameter(Mandatory, HelpMessage = 'Password for Turbonomic User')]
+  [parameter(HelpMessage = 'Password for Turbonomic User')]
   [string] $Password,
 
   [parameter(HelpMessage = 'PSCredential for Turbonomic Instance')]
@@ -80,14 +80,22 @@ function Get-Auth {
         password  = $Password
       }
     }
-    else {
-      $Creds = Get-Credential -Message "Please provide credentials for Turbonomic:"
-      
+    elseif ($Username) {
+      $Creds = Get-Credential -Message "Please provide password for Turbonomic:" -UserName $Username
       $Auth = @{
-        Username  = $Creds.Username
-        Password  = $Creds.GetNetworkCredential().Password
+        username  = $Creds.UserName
+        password  = $Creds.GetNetworkCredential().Password
       } 
     }
+    else {
+      $Creds = Get-Credential -Message "Please provide credentials for Turbonomic:" 
+      
+      $Auth = @{
+        username  = $Creds.UserName
+        password  = $Creds.GetNetworkCredential().Password
+      } 
+    }
+    write-host $Auth.Username
     $Auth
 }
 function Invoke-TurboRequest {
@@ -411,6 +419,7 @@ if ($PSVersionTable.PSVersion.Major -lt 6)
 else { $PSVersion = 0}
 # Pass parameters for authentication or prompt for it
 $Auth = Get-Auth -Username $Username -Password $Password 
+
 
 # Web Session object
 $script:VMTSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
