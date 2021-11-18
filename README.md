@@ -50,34 +50,34 @@ Currently, only the following target types are supported:
 
 ## Syntax <a name="syntax"></a>
 
-    ```powershell
-    PS> ./add_turbo_targets.ps1 [-TurboInstance] <String> [-Username] <String> [-Password] <String> 
-        [[-Credential] <PSCredential>] [[-csvFolder] <String>] [-UpdateTargets] [<CommonParameters>]
-    ```
+```PowerShell
+PS> ./add_turbo_targets.ps1 [-TurboInstance] <String> [-Username] <String> [-Password] <String> 
+    [[-Credential] <PSCredential>] [[-csvFolder] <String>] [-UpdateTargets] [<CommonParameters>]
+```
 
 ## Parameters <a name="parameters"></a>
 
-    ```powershell
-    -Turbo_Instance <String>
-            Hostname or IP address of the Turbonomic instance to add targets to.
-            
-        -Username <String>
-            Username used to add targets to Turbonomic instance.  Must had administrator priviledges.
-            
-        -Password <String>
-            Password for Username parameter.
-            
-        -Credential <PSCredential>
-            
-        -CSVFolder <String>
-            Optional parameter to specify the folder that contains the csv files.  Default is csvFiles.
-            
-        -JSONMap <String>
-            
-        -UpdateTargets [<SwitchParameter>]
-            Optional parameter.  If specified and target already exists, it will be updated.  
-            If target does not exist, it will be added
-    ```
+```powershell
+-Turbo_Instance <String>
+        Hostname or IP address of the Turbonomic instance to add targets to.
+        
+    -Username <String>
+        Username used to add targets to Turbonomic instance.  Must had administrator priviledges.
+        
+    -Password <String>
+        Password for Username parameter.
+        
+    -Credential <PSCredential>
+        
+    -CSVFolder <String>
+        Optional parameter to specify the folder that contains the csv files.  Default is csvFiles.
+        
+    -JSONMap <String>
+        
+    -UpdateTargets [<SwitchParameter>]
+        Optional parameter.  If specified and target already exists, it will be updated.  
+        If target does not exist, it will be added
+```
 
 ## Examples <a name="examples"></a>
 
@@ -91,12 +91,12 @@ add.  You can see examples of how to create the CSV files in the "csvFiles" fold
 
 You can run the script with no parameters and you will be prompted for the Turbo instance hostname/IP, username, and password:
 
-    ```powershell
-    PS> ../add_turbo_targets.ps1
-    ```
+```powershell
+PS> ../add_turbo_targets.ps1
+```
 
 Alternatively, you can also specify all the required parameters:
 
-    ```powershell
-    PS> ../add_turbo_targets.ps1 -TurboInstance turbo.example.com -Username administrator -Password password
-    ```
+```powershell
+PS> ../add_turbo_targets.ps1 -TurboInstance turbo.example.com -Username administrator -Password password
+```
